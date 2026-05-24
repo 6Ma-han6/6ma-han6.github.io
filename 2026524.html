@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心意告白</title>
+<style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  width: 100vw;
+  height: 100vh;
+  background: #0a0a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+/* 方块点阵容器 */
+.heart-container{
+  display: grid;
+  gap: 4px;
+  margin-bottom: 60px;
+}
+.block{
+  width: 12px;
+  height: 12px;
+  background: #ff4466;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+/* 炸裂动画 */
+.block.explode{
+  opacity: 0;
+  transform: scale(2) rotate(180deg);
+}
+/* 最终文字 */
+.msg-box{
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s ease;
+  text-align: center;
+}
+.show-msg{
+  opacity: 1;
+  transform: translateY(0);
+}
+.main-text{
+  font-size: 36px;
+  color: #ff5577;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-shadow: 0 0 15px #ff4466;
+}
+.sign-text{
+  font-size: 22px;
+  color: #cccccc;
+  text-align: right;
+  padding-right: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="heart-container" id="heartBox"></div>
+
+<div class="msg-box" id="msgBox">
+  <div class="main-text">马涵，我喜欢你</div>
+  <div class="sign-text">——薛明浩</div>
+</div>
+
+<script>
+// 爱心点阵模板 1为显示方块 0为空
+const heartMap = [
+  [0,0,1,1,0,0,0,1,1,0,0],
+  [0,1,1,1,1,0,1,1,1,1,0],
+  [1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1],
+  [0,1,1,1,1,1,1,1,1,1,0],
+  [0,0,1,1,1,1,1,1,1,0,0],
+  [0,0,0,1,1,1,1,1,0,0,0],
+  [0,0,0,0,1,1,1,0,0,0,0],
+  [0,0,0,0,0,1,0,0,0,0,0]
+];
+
+const box = document.getElementById('heartBox');
+const msgBox = document.getElementById('msgBox');
+let blockList = [];
+
+// 生成方块
+heartMap.forEach(row=>{
+  const rowDiv = document.createElement('div');
+  rowDiv.style.display = 'grid';
+  rowDiv.style.gridTemplateColumns = `repeat(${row.length},12px)`;
+  rowDiv.style.gap = '4px';
+  row.forEach(item=>{
+    const block = document.createElement('div');
+    block.className = 'block';
+    if(item === 1){
+      blockList.push(block);
+    }
+    rowDiv.appendChild(block);
+  })
+  box.appendChild(rowDiv);
+})
+
+// 逐个闪现拼成爱心
+function showHeart(){
+  let index = 0;
+  const timer = setInterval(()=>{
+    if(index >= blockList.length){
+      clearInterval(timer);
+      // 停留片刻后炸裂
+      setTimeout(explodeHeart,1200);
+      return;
+    }
+    blockList[index].style.opacity = 1;
+    blockList[index].style.transform = 'scale(1)';
+    index++;
+  },60)
+}
+
+// 爱心方块炸裂消散
+function explodeHeart(){
+  blockList.forEach(item=>{
+    item.classList.add('explode');
+  })
+  // 炸裂后弹出文字
+  setTimeout(()=>{
+    msgBox.classList.add('show-msg');
+  },500)
+}
+
+// 启动动画
+showHeart();
+</script>
+</body>
+</html>
