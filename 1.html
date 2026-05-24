@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马涵，我喜欢你</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: #050510;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* 告白文字与按钮容器 */
+        .content-box {
+            position: absolute;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-align: center;
+            padding: 30px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .show-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .main-text {
+            font-size: 38px;
+            color: #ff4d6d;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
+        }
+
+        .phone-text {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .sign-text {
+            font-size: 20px;
+            color: #cccccc;
+            text-align: right;
+            margin-bottom: 30px;
+            padding-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .btn-wechat {
+            background: linear-gradient(45deg, #07C160, #00d26a);
+            color: white;
+            box-shadow: 0 4px 15px rgba(7, 193, 96, 0.4);
+        }
+
+        .btn-wechat:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(7, 193, 96, 0.6);
+        }
+
+        .btn-call {
+            background: linear-gradient(45deg, #ff4d6d, #ff6b81);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content-box" id="contentBox">
+        <div class="main-text">马涵，我喜欢你</div>
+        <div class="phone-text">18076940632</div>
+        <div class="sign-text">——薛明浩</div>
+        <div class="button-group">
+            <a href="https://work.weixin.qq.com/ca/cawcdeb5ec8d1129e8" class="btn btn-wechat" target="_blank">添加微信</a>
+            <a href="tel:18076940632" class="btn btn-call">电话联系</a>
+        </div>
+    </div>
+
+    <script>
+        // ===================== 核心配置 =====================
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const contentBox = document.getElementById('contentBox');
+
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+
+        const PARTICLE_COUNT = 850; // 粒子数量（拉满）
+        const GATHER_DURATION = 30000; // 吸成爱心时间：30秒
+        const ROTATE_DURATION = 10000; // 爱心旋转时间：10秒
+        const EXPLODE_DURATION = 2000; // 炸裂时间：2秒
+
+        let particles = [];
+        let heartPoints = [];
+        let startTime = Date.now();
+        let state = 'gathering'; // gathering → rotating → exploding → done
+        let rotationAngle = 0;
+
+        // ===================== 爱心点阵生成 =====================
+        function createHeartPoints() {
+            const scale = Math.min(w, h) * 0.15;
+            const centerX = w / 2;
+            const centerY = h / 2;
+
+            // 标准爱心方程生成点
+            for (let t = 0; t < Math.PI * 2; t += 0.02) {
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                heartPoints.push({
+                    x: centerX + x * scale,
+                    y: centerY + y * scale
+                });
+            }
+
+            // 再补充一层，让爱心更饱满
+            for (let t = 0; t < Math.PI * 2; t += 0.03) {
+                const x = 16 * Math.pow(Math.sin(t), 3) 
+opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-align: center;
+            padding: 30px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .show-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .main-text {
+            font-size: 38px;
+            color: #ff4d6d;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
+        }
+
+        .phone-text {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .sign-text {
+            font-size: 20px;
+            color: #cccccc;
+            text-align: right;
+            margin-bottom: 30px;
+            padding-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .btn-wechat {
+            background: linear-gradient(45deg, #07C160, #00d26a);
+            color: white;
+            box-shadow: 0 4px 15px rgba(7, 193, 96, 0.4);
+        }
+
+        .btn-wechat:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(7, 193, 96, 0.6);
+        }
+
+        .btn-call {
+            background: linear-gradient(45deg, #ff4d6d, #ff6b81);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-call:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content-box" id="contentBox">
+        <div class="main-text">马涵，我喜欢你</div>
+        <div class="phone-text">18076940632</div>
+        <div class="sign-text">——薛明浩</div>
+        <div class="button-group">
+            <a href="https://work.weixin.qq.com/ca/cawcdeb5ec8d1129e8" class="btn btn-wechat" target="_blank">添加微信</a>
+            <a href="tel:18076940632" class="btn btn-call">电话联系</a>
+        </div>
+    </div>
+
+    <script>
+        // ===================== 核心配置 =====================
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const contentBox = document.getElementById('contentBox');
+
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+
+        const PARTICLE_COUNT = 850; // 粒子数量（拉满）
+        const GATHER_DURATION = 30000; // 吸成爱心时间：30秒
+        const ROTATE_DURATION = 10000; // 爱心旋转时间：10秒
+        const EXPLODE_DURATION = 2000; // 炸裂时间：2秒
+
+        let particles = [];
+        let heartPoints = [];
+        let startTime = Date.now();
+        let state = 'gathering'; // gathering → rotating → exploding → done
+        let rotationAngle = 0;
+
+        // ===================== 爱心点阵生成 =====================
+        function createHeartPoints() {
+            const scale = Math.min(w, h) * 0.15;
+            const centerX = w / 2;
+            const centerY = h / 2;
+
+            // 标准爱心方程生成点
+            for (let t = 0; t < Math.PI * 2; t += 0.02) {
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                heartPoints.push({
+                    x: centerX + x * scale,
+                    y: centerY + y * scale
+                });
+            }
+
+            // 再补充一层，让爱心更饱满
+            for (let t = 0; t < Math.PI * 2; t += 0.03) {
+                const x = 16 * Math.pow(Math.sin(t), 3) * 0.8;
+                const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * 0.8;
+                heartPoints.push({
+                    x: centerX + x * scale,
+                    y: centerY + y * scale
+                });
+            }
+        }
+
+        // ===================== 粒子类 =====================
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                // 初始位置：屏幕底部外，随机分布
+                this.x = Math.random() * w;
+                this.y = h + Math.random() * 200;
+                this.vx = (Math.random() - 0.5) * 3;
+                this.vy = -Math.random() * 2 - 1;
+                this.size = Math.random() * 2.5 + 1;
+                this.color = `rgba(255, 77, 109, ${Math.random() * 
+Math.random() * 0.5 + 0.5})`;
+                this.target = null;
+                this.settled = false;
+                this.exploded = false;
+                this.alpha = 1;
+            }
+
+            update() {
+                const elapsed = Date.now() - startTime;
+
+                if (state === 'gathering') {
+                    if (this.settled) return;
+
+                    if (this.target) {
+                        // 被吸向目标点
+                        const dx = this.target.x - this.x;
+                        const dy = this.target.y - this.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 5) {
+                            this.x = this.target.x;
+                            this.y = this.target.y;
+                            this.settled = true;
+                        } else {
+                            // 带点平滑的吸附
+                            this.x += dx * 0.06;
+                            this.y += dy * 0.06;
+                        }
+                    } else {
+                        // 底部无规律旋转运动
+                        this.vx += (Math.random() - 0.5) * 0.2;
+                        this.vy += (Math.random() - 0.3) * 0.1;
+                        this.vx *= 0.98;
+                        this.vy *= 0.98;
+
+                        this.x += this.vx;
+                        this.y += this.vy;
+
+                        // 边界重置
+                        if (this.y < -50 || this.x < -50 || this.x > w + 50) {
+                            this.reset();
+                        }
+                    }
+                } else if (state === 'rotating') {
+                    if (!this.settled) return;
+
+                    // 绕中心旋转
+                    const dx = this.x - w / 2;
+                    const dy = this.y - h / 2;
+                    const newX = w / 2 + dx * Math.cos(0.02) - dy * Math.sin(0.02);
+                    const newY = h / 2 + dx * Math.sin(0.02) + dy * Math.cos(0.02);
+
+                    this.x = newX;
+                    this.y = newY;
+                } else if (state === 'exploding') {
+                    if (!this.exploded) {
+                        // 炸裂初速度
+                        const dx = this.x - w / 2;
+                        const dy = this.y - h / 2;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const force = 8;
+                        this.vx = (dx / dist) * force;
+                        this.vy = (dy / dist) * force;
+                        this.exploded = true;
+                    }
+
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vx *= 0.98;
+                    this.vy *= 0.98;
+                    this.alpha -= 0.02;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 77, 109, ${this.alpha})`;
+                ctx.fill();
+            }
+        }
+
+        // ===================== 初始化 =====================
+        function init() {
+            createHeartPoints();
+
+            // 创建所有粒子
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push(new Particle());
+            }
+
+            // 给前 heartPoints.length 个粒子分配目标点
+            for (let i = 0; i < Math.min(PARTICLE_COUNT, heartPoints.length); i++) {
+                particles[i].target = heartPoints[i];
+            }
+        }
+
+        // ===================== 状态机控制 =====================
+        function updateState() {
+            const elapsed = Date.now() - startTime;
+
+            if (state === 'gathering') {
+                // 检查是否所有目标粒子都已就位
+                const allSettled = particles
+                    .filter(p => p.target)
+                    .every(p => p.settled);
+
+                if (allSettled || elapsed > GATHER_DURATION) {
+                    state = 'rotating';
+                    startTime = Date.now();
+                }
+            } else if (state === 'rotating') {
+                if (elapsed > ROTATE_DURATION) {
+                    state = 'exploding';
+                    startTime = Date.now();
+                }
+            } else if (state === 'exploding') {
+                if (elapsed > EXPLODE_DURATION) {
+                    state = 'done';
+                    // 显示文字和按钮
+                    contentBox.classList.add('show-content');
+                }
+            }
+        }
+
+        // ===================== 动画循环 =====================
+        function animate() {
+            // 半透明背景，做拖影效果
+            ctx.fillStyle = 'rgba(5, 5, 16, 0.15)';
+            ctx.fillRect(0, 0, w, h);
+
+            updateState();
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // ===================== 窗口大小适配 =====================
+        window.addEventListener('resize', () => {
+           
+w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    // 重新生成爱心点
+    heartPoints = [];
+    createHeartPoints();
+});
+
+// ===================== 启动 =====================
+init();
+animate();
+</script>
+</body>
+</html>
