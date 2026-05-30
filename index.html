@@ -1,173 +1,176 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>心意告白</title>
-<style>
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body{
-  width: 100vw;
-  height: 100vh;
-  background: #0a0a1a;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.heart-container{
-  display: grid;
-  gap: 4px;
-  margin-bottom: 60px;
-}
-.block{
-  width: 12px;
-  height: 12px;
-  background: #ff4466;
-  opacity: 0;
-  transform: scale(0);
-  transition: all 0.3s ease;
-  border-radius: 2px;
-}
-.block.explode{
-  opacity: 0;
-  transform: scale(2) rotate(180deg);
-}
-.msg-box{
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 1s ease;
-  text-align: center;
-}
-.show-msg{
-  opacity: 1;
-  transform: translateY(0);
-}
-.main-text{
-  font-size: 36px;
-  color: #ff5577;
-  letter-spacing: 4px;
-  margin-bottom: 15px;
-  font-weight: bold;
-  text-shadow: 0 0 15px #ff4466;
-}
-.phone-num{
-  font-size: 24px;
-  color: #ffffff;
-  margin-bottom: 15px;
-}
-.sign-text{
-  font-size: 22px;
-  color: #cccccc;
-  text-align: right;
-  padding-right: 20px;
-  margin-bottom: 25px;
-}
-.btn-group{
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-}
-.btn{
-  padding: 10px 26px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: 500;
-  transition: 0.2s;
-  border: none;
-  cursor: pointer;
-}
-.wechat-btn{
-  background: #06c258;
-  color: #fff;
-}
-.call-btn{
-  background: #ff4466;
-  color: #fff;
-}
-.btn:hover{
-  opacity: 0.85;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LX AI · 个人主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0f;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* 背景粒子效果 */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(100, 100, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 100, 150, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            background: rgba(20, 20, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(100, 100, 255, 0.2);
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* AI对话按钮 */
+        .ai-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .ai-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 联系方式按钮组 */
+        .contact-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .phone-btn:hover {
+            border-color: #25d366;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .wechat-btn:hover {
+            border-color: #07c160;
+            box-shadow: 0 0 15px rgba(7, 193, 96, 0.3);
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 13px;
+        }
+    </style>
 </head>
 <body>
+    <div class="bg-particles"></div>
 
-<div class="heart-container" id="heartBox"></div>
+    <div class="container">
+        <div class="avatar">LX</div>
+        <h1>LX AI · 个人助手</h1>
+        <p class="tagline">智能对话 · 随时在线 · 高效沟通</p>
 
-<div class="msg-box" id="msgBox">
-  <div class="main-text">马涵，我喜欢你</div>
-  <div class="phone-num">18076940632</div>
-  <div class="sign-text">——薛明浩</div>
-  <div class="btn-group">
-    <a href="https://work.weixin.qq.com/ca/cawcdeb5ec8d1129e8" class="btn wechat-btn">添加微信</a>
-    <a href="tel:18076940632" class="btn call-btn">电话联系</a>
-  </div>
-</div>
+        <!-- AI对话入口 -->
+        <a href="http://43.226.44.27:8080/chat/api/019e77fd-c856-7cb3-bce9-cdb92dc60b0b" 
+           target="_blank" class="ai-btn">
+            💬 开始对话
+        </a>
 
-<script>
-const heartMap = [
-  [0,0,1,1,0,0,0,1,1,0,0],
-  [0,1,1,1,1,0,1,1,1,1,0],
-  [1,1,1,1,1,1,1,1,1,1,1],
-  [1,1,1,1,1,1,1,1,1,1,1],
-  [1,1,1,1,1,1,1,1,1,1,1],
-  [0,1,1,1,1,1,1,1,1,1,0],
-  [0,0,1,1,1,1,1,1,1,0,0],
-  [0,0,0,1,1,1,1,1,0,0,0],
-  [0,0,0,0,1,1,1,0,0,0,0],
-  [0,0,0,0,0,1,0,0,0,0,0]
-];
-
-const box = document.getElementById('heartBox');
-const msgBox = document.getElementById('msgBox');
-let blockList = [];
-
-heartMap.forEach(row=>{
-  const rowDiv = document.createElement('div');
-  rowDiv.style.display = 'grid';
-  rowDiv.style.gridTemplateColumns = `repeat(${row.length},12px)`;
-  rowDiv.style.gap = '4px';
-  row.forEach(item=>{
-    const block = document.createElement('div');
-    block.className = 'block';
-    if(item === 1){
-      blockList.push(block);
-    }
-    rowDiv.appendChild(block);
-  })
-  box.appendChild(rowDiv);
-})
-
-function showHeart(){
-  let index = 0;
-  const timer = setInterval(()=>{
-    if(index >= blockList.length){
-      clearInterval(timer);
-      setTimeout(explodeHeart,1200);
-      return;
-    }
-    blockList[index].style.opacity = 1;
-    blockList[index].style.transform = 'scale(1)';
-    index++;
-  },60)
-}
-
-function explodeHeart(){
-  blockList.forEach(item=>{
-    item.classList.add('explode');
-  })
-  setTimeout(()=>{
-    msgBox.classList.add('show-msg');
-  },500)
-}
-
-showHeart();
-</script>
-</body>
-</html>
+        <!-- 联系方式按钮组 -->
+        <div class="contact-group">
+            <a href="tel:18076940632" class="contact-btn phone-btn">
+                📞 电话联系
+            </a>
+            <a href="https://work.weixin.qq.com/ca/cawcdeb5ec8d1129e8" 
+               target="_blank" class="c
