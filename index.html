@@ -1,176 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LX AI · 个人主页</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background: #0a0a0f;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-
-        /* 背景粒子效果 */
-        .bg-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 20% 50%, rgba(100, 100, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255, 100, 150, 0.1) 0%, transparent 50%);
-        }
-
-        .container {
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            background: rgba(20, 20, 30, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(100, 100, 255, 0.2);
-        }
-
-        .avatar {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: bold;
-            color: #fff;
-            box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tagline {
-            color: #aaa;
-            margin-bottom: 30px;
-            font-size: 16px;
-        }
-
-        /* AI对话按钮 */
-        .ai-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .ai-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        /* 联系方式按钮组 */
-        .contact-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .contact-btn {
-            flex: 1;
-            min-width: 140px;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .contact-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .phone-btn:hover {
-            border-color: #25d366;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
-        }
-
-        .wechat-btn:hover {
-            border-color: #07c160;
-            box-shadow: 0 0 15px rgba(7, 193, 96, 0.3);
-        }
-
-        .footer {
-            margin-top: 30px;
-            color: #666;
-            font-size: 13px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>LX AI 个人主页</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif}
+body{min-height:100vh;background:#0a0a14;color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
+.bg{position:fixed;inset:0;background:radial-gradient(circle at 30% 20%,rgba(100,80,255,0.1),transparent 60%);z-index:-1}
+.card{width:100%;max-width:400px;background:rgba(20,20,35,0.9);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:35px 25px;text-align:center;box-shadow:0 0 35px rgba(90,70,240,0.25)}
+.avatar{width:100px;height:100px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(135deg,#5c6cf0,#824fc9);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:bold;animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+h1{font-size:24px;background:linear-gradient(90deg,#6c7dff,#a074e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.desc{color:#b0b0c8;font-size:14px;margin-bottom:30px}
+.btn{display:block;text-decoration:none;border-radius:12px;padding:14px 0;font-size:16px;font-weight:500;margin-bottom:12px;transition:all 0.2s}
+.ai{background:linear-gradient(135deg,#5c6cf0,#824fc9);color:#fff}
+.ai:active{transform:translateY(-2px);box-shadow:0 8px 20px rgba(92,108,240,0.35)}
+.blog{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)}
+.contact{display:flex;gap:10px;margin-top:8px}
+.contact a{flex:1;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 0}
+.footer{margin-top:25px;color:#777;font-size:12px}
+</style>
 </head>
 <body>
-    <div class="bg-particles"></div>
+<div class="bg"></div>
+<div class="card">
+<div class="avatar">LX</div>
+<h1>LX AI 智能助手</h1>
+<p class="desc">智能对话 | 技术服务 | 个人博客</p>
 
-    <div class="container">
-        <div class="avatar">LX</div>
-        <h1>LX AI · 个人助手</h1>
-        <p class="tagline">智能对话 · 随时在线 · 高效沟通</p>
+<a href="http://43.226.44.27:8080/chat/f1379e6347c9859d" class="btn ai" target="_blank">💬 进入AI对话</a>
+<a href="http://43.226.44.27:8090" class="btn blog" target="_blank">📝 访问个人博客</a>
 
-        <!-- AI对话入口 -->
-        <a href="http://43.226.44.27:8080/chat/api/019e77fd-c856-7cb3-bce9-cdb92dc60b0b" 
-           target="_blank" class="ai-btn">
-            💬 开始对话
-        </a>
+<div class="contact">
+<a href="tel:18076940632">📞 电话联系</a>
+<a href="https://work.weixin.qq.com/ca/cawcdeb5ec8d1129e8" target="_blank">💬 企业微信</a>
+</div>
 
-        <!-- 联系方式按钮组 -->
-        <div class="contact-group">
-            <a href="tel:18076940632" class="contact-btn phone-btn">
-                📞 电话联系
-            </a>
-            <a href="https://work.weixin.qq.com/ca/cawcdeb5ec8d1129e8" 
-               target="_blank" class="c
+<div class="footer">© 2026 LX AI · 成都LX科技</div>
+</div>
+
+<script>
+const bg=document.querySelector('.bg');
+for(let i=0;i<12;i++){
+let d=document.createElement('div');
+d.style=`position:absolute;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;
+background:rgba(255,255,255,${Math.random()*0.25});border-radius:50%;
+top:${Math.random()*100}%;left:${Math.random()*100}%;
+animation:fly ${Math.random()*8+8}s infinite linear`;
+bg.appendChild(d);
+}
+const s=document.createElement('style');
+s.textContent=`@keyframes fly{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(-100vh);opacity:0}}`;
+document.head.appendChild(s);
+</script>
+</body>
+</html>
